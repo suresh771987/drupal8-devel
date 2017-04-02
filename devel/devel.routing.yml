@@ -1,0 +1,31 @@
+devel.form:
+  path: '/devel/form'
+  defaults:
+      _title: 'My Devel First Form'
+      _form: '\Drupal\devel\Form\DevelForm'
+      
+  requirements:
+      _permission: 'access content'
+devel.article:
+    path: '/devel/article/{node}'
+    defaults:
+        _controller: '\Drupal\devel\Controller\DevelController::articleJson'
+        _title: 'My First Article Json Format in D8'
+    requirements:
+        _permission: 'access content'
+devel.articleTable:
+    path: '/devel/article/table/{node}'
+    defaults:
+        _controller: '\Drupal\devel\Controller\DevelTableController::articleTable'
+        _title: 'My First Theme table'
+    requirements:
+        _permission: 'access content'
+devel.blockRefresh:
+    path: '/devel/block/refresh'
+    defaults:
+        _controller: '\Drupal\devel\Controller\DevelBlockRefresh::blockRefresh'
+        _title: 'Refresh the block via Ajax'
+    requirements: 
+        _permission: 'access content'
+    
+  

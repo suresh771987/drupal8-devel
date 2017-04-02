@@ -1,0 +1,61 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function devel_views_pre_render(\Drupal\views\ViewExecutable $view) {
+}
+
+function getImage($node) {
+    $file = $node->field_image->entity;
+    if ($file) {
+      $variables = array(
+        'style_name' => 'thumbnail',
+        'uri' => $file->getFileUri(),
+      );
+      // The image.factory service will check if our image is valid.
+      $image = \Drupal::service('image.factory')->get($file->getFileUri());
+      if ($image->isValid()) {
+        $variables['width'] = $image->getWidth();
+        $variables['height'] = $image->getHeight();
+      }
+      else {
+        $variables['width'] = $variables['height'] = NULL;
+      }
+      $logo_build = [
+        '#theme' => 'image_style',
+        '#width' => $variables['width'],
+        '#height' => $variables['height'],
+        '#style_name' => $variables['style_name'],
+        '#uri' => $variables['uri'],
+      ];
+      // Add the file entity to the cache dependencies.
+      // This will clear our cache when this entity updates.
+      $renderer = \Drupal::service('renderer');
+      $renderer->addCacheableDependency($logo_build, $file);
+      // Return the render array as block content.
+      return $logo_build;
+    }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function devel_theme($existing, $type, $theme, $path) {
+  return array(
+    'devel_block_refresh' => array(
+      'variables' => array(
+        'items' => array(),
+      )
+    )
+  );
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function devel_page_attachments(array &$attachments) {
+  $attachments['#attached']['library'][] = 'devel/devel';
+}

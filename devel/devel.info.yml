@@ -1,0 +1,9 @@
+
+name: devel
+type: module
+description: 'Development and Training Module for Suresh Developemnt'
+package: Development
+core : 8.x
+dependencies:
+    - node
+    - block

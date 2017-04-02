@@ -1,0 +1,7 @@
+## YAML Template.
+devel:
+    version: 1
+    js:
+        devel.js: {}
+    dependencies:
+      - core/jquery
